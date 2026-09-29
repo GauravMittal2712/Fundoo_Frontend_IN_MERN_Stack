@@ -1,12 +1,15 @@
 import { useState } from 'react'
 import { DEFAULT_NOTE_COLOR } from '../../../utils/constants'
 import { IconAdd, IconPalette, IconPin } from '../../common/Icons/Icons'
+import useTheme from '../../../hooks/useTheme'
+import { getNoteBackground } from '../../../utils/helpers'
 import ColorPalette from '../ColorPalette/ColorPalette'
 
 const EMPTY_NOTE = { title: '', description: '', color: DEFAULT_NOTE_COLOR, isPinned: false }
 
 // The "Take a note..." box. `onCreate(payload)` must resolve to true when saved.
 export default function NoteInput({ onCreate }) {
+  const { theme } = useTheme()
   const [open, setOpen] = useState(false)
   const [note, setNote] = useState(EMPTY_NOTE)
   const [colorOpen, setColorOpen] = useState(false)
@@ -48,7 +51,7 @@ export default function NoteInput({ onCreate }) {
       {colorOpen && <div className="backdrop" onClick={() => setColorOpen(false)} />}
       <form
         className="composer-form"
-        style={{ background: note.color === DEFAULT_NOTE_COLOR ? 'var(--card-bg)' : note.color }}
+        style={{ background: getNoteBackground(note.color, theme) }}
         onSubmit={submit}
       >
         <div className="composer-top">

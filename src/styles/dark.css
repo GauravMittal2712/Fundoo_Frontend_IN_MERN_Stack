@@ -1,0 +1,163 @@
+/* =====================================================================
+   DARK THEME OVERRIDES
+   Active when <html data-theme="dark"> (set by ThemeContext).
+   Loaded LAST in main.jsx so these rules win over the light defaults.
+   ===================================================================== */
+
+[data-theme='dark'] body,
+[data-theme='dark'] .keep-app,
+[data-theme='dark'] .auth-page {
+  background: var(--bg);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] a { color: var(--accent); }
+
+/* ---------- Top bar ---------- */
+[data-theme='dark'] .keep-topbar {
+  background: var(--surface);
+  border-bottom-color: var(--border-soft);
+}
+[data-theme='dark'] .brand-name,
+[data-theme='dark'] .search-icon,
+[data-theme='dark'] .icon-btn,
+[data-theme='dark'] .composer-add-icon,
+[data-theme='dark'] .pin-corner-btn { color: var(--text-secondary); }
+[data-theme='dark'] .icon-btn:hover,
+[data-theme='dark'] .pin-corner-btn:hover,
+[data-theme='dark'] .text-btn:hover,
+[data-theme='dark'] .profile-signout:hover { background: var(--hover-bg); }
+[data-theme='dark'] .icon-btn:hover { color: var(--text-primary); }
+
+[data-theme='dark'] .topbar-search { background: var(--search-bg); }
+[data-theme='dark'] .topbar-search input { color: var(--text-primary); }
+[data-theme='dark'] .topbar-search input::placeholder { color: #bdc1c6; }
+[data-theme='dark'] .avatar { background: var(--accent); color: #202124; }
+
+/* ---------- Sidebar ---------- */
+[data-theme='dark'] .sidebar-item { color: var(--text-primary); }
+[data-theme='dark'] .sidebar-item:hover { background: var(--hover-bg); }
+[data-theme='dark'] .sidebar-item.active {
+  background: var(--active-bg);
+  color: var(--text-primary);
+}
+
+/* ---------- Main area text ---------- */
+[data-theme='dark'] .view-title,
+[data-theme='dark'] .trash-hint,
+[data-theme='dark'] .section-label,
+[data-theme='dark'] .empty-text,
+[data-theme='dark'] .notes-loading,
+[data-theme='dark'] .page-loader { color: var(--text-secondary); }
+
+/* ---------- Composer ---------- */
+[data-theme='dark'] .composer-collapsed {
+  background: var(--card-bg);
+  border-color: var(--border-soft);
+  color: var(--text-secondary);
+  box-shadow: 0 1px 2px var(--shadow-sm);
+}
+[data-theme='dark'] .composer-form {
+  border-color: var(--border-soft);
+  box-shadow: 0 1px 4px var(--shadow-md);
+}
+[data-theme='dark'] .composer-title,
+[data-theme='dark'] .composer-desc { color: var(--text-primary); }
+[data-theme='dark'] .composer-title::placeholder,
+[data-theme='dark'] .composer-desc::placeholder { color: var(--text-secondary); }
+[data-theme='dark'] .text-btn { color: var(--text-secondary); }
+[data-theme='dark'] .text-btn.primary { color: var(--accent); }
+
+/* ---------- Note cards ---------- */
+[data-theme='dark'] .note-card {
+  border-color: var(--border-soft);
+  color: var(--text-primary);
+}
+[data-theme='dark'] .note-card:hover { box-shadow: 0 1px 6px var(--shadow-md); }
+[data-theme='dark'] .note-card:not([data-default='true']) { border-color: transparent; }
+[data-theme='dark'] .note-title { color: var(--text-primary); }
+[data-theme='dark'] .note-desc { color: var(--text-primary); }
+[data-theme='dark'] .pin-on { color: var(--text-primary); }
+[data-theme='dark'] .reminder-chip,
+[data-theme='dark'] .label-chip {
+  background: var(--chip-bg);
+  color: var(--text-primary);
+}
+
+/* ---------- Popovers & colour palette ---------- */
+[data-theme='dark'] .popover {
+  background: var(--popover-bg);
+  color: var(--text-primary);
+  box-shadow: 0 2px 10px var(--shadow-md);
+}
+[data-theme='dark'] .swatch { border-color: var(--border); color: #e8eaed; }
+[data-theme='dark'] .swatch-selected { border: 2px solid var(--accent); }
+[data-theme='dark'] .reminder-popover input {
+  background: var(--input-bg);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+[data-theme='dark'] .label-option:hover { background: var(--hover-bg); }
+
+/* ---------- Alerts ---------- */
+[data-theme='dark'] .notes-error,
+[data-theme='dark'] .global-error {
+  background: var(--error-bg);
+  color: var(--error-text);
+}
+
+/* ---------- Modals ---------- */
+[data-theme='dark'] .modal-backdrop { background: rgba(0, 0, 0, 0.6); }
+[data-theme='dark'] .collab-modal input { color: var(--text-primary); }
+
+/* ---------- Profile menu ---------- */
+[data-theme='dark'] .profile-panel {
+  background: var(--popover-bg);
+  color: var(--text-primary);
+  box-shadow: 0 4px 16px var(--shadow-md);
+}
+[data-theme='dark'] .profile-avatar-lg,
+[data-theme='dark'] .collab-avatar { background: var(--accent); color: #202124; }
+
+/* ---------- Mobile sidebar ---------- */
+@media (max-width: 768px) {
+  [data-theme='dark'] .keep-sidebar {
+    background: var(--surface);
+    box-shadow: 2px 0 6px var(--shadow-md);
+  }
+}
+
+/* ---------- Auth pages (Login / Register) ---------- */
+[data-theme='dark'] .auth-card { border-color: var(--border); background: var(--surface); }
+[data-theme='dark'] .auth-title,
+[data-theme='dark'] .auth-subtitle,
+[data-theme='dark'] .illustration-text,
+[data-theme='dark'] .show-password { color: var(--text-primary); }
+[data-theme='dark'] .form-input {
+  background: var(--input-bg);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+[data-theme='dark'] .form-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(138, 180, 248, 0.25);
+}
+[data-theme='dark'] .form-input.error { border-color: var(--error-text); }
+[data-theme='dark'] .form-label {
+  background: var(--input-bg);
+  color: var(--text-secondary);
+}
+[data-theme='dark'] .form-input:focus + .form-label,
+[data-theme='dark'] .form-input:not(:placeholder-shown) + .form-label { color: var(--accent); }
+[data-theme='dark'] .helper-text { color: var(--text-secondary); }
+[data-theme='dark'] .error-text { color: var(--error-text); }
+[data-theme='dark'] .show-password input { accent-color: var(--accent); }
+[data-theme='dark'] .btn-primary { background: var(--accent); color: #202124; }
+[data-theme='dark'] .btn-primary:hover { background: var(--accent-hover); }
+[data-theme='dark'] .btn-primary:disabled { background: #3c4043; color: #80868b; }
+[data-theme='dark'] .btn-text { color: var(--accent); }
+
+/* ---------- Smooth switch ---------- */
+body, .keep-topbar, .note-card, .composer-collapsed, .composer-form, .popover, .profile-panel {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}

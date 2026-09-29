@@ -1,8 +1,11 @@
 import { DEFAULT_NOTE_COLOR } from '../../../utils/constants'
+import { getNoteBackground } from '../../../utils/helpers'
+import useTheme from '../../../hooks/useTheme'
 import { IconBell, IconPin } from '../../common/Icons/Icons'
 import NoteToolbar from '../NoteToolbar/NoteToolbar'
 
 export default function NoteCard({ note, filterType, popover, actions, ...toolbarProps }) {
+  const { theme } = useTheme()
   const hasOpenPopover = popover.type !== null && popover.noteId === note._id
   const isDefaultColor = !note.color || note.color === DEFAULT_NOTE_COLOR
   const showPin = filterType !== 'trash' && filterType !== 'shared'
@@ -11,7 +14,7 @@ export default function NoteCard({ note, filterType, popover, actions, ...toolba
     <div
       className={`note-card ${hasOpenPopover ? 'popover-open' : ''}`}
       data-default={isDefaultColor}
-      style={{ background: isDefaultColor ? 'var(--card-bg)' : note.color }}
+      style={{ background: getNoteBackground(note.color, theme) }}
     >
       {showPin && (
         <button
