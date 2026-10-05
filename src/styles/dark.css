@@ -156,6 +156,13 @@
 [data-theme='dark'] .btn-primary:hover { background: var(--accent-hover); }
 [data-theme='dark'] .btn-primary:disabled { background: #3c4043; color: #80868b; }
 [data-theme='dark'] .btn-text { color: var(--accent); }
+[data-theme='dark'] .global-success { background: #1e3a29; color: #81c995; }
+
+[data-theme='dark'] img.auth-illustration {
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+}
 
 /* ---------- Smooth switch ---------- */
 body, .keep-topbar, .note-card, .composer-collapsed, .composer-form, .popover, .profile-panel {

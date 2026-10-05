@@ -5,6 +5,8 @@ import PublicRoute from './PublicRoute'
 import MainLayout from '../components/layout/MainLayout/MainLayout'
 import Login from '../pages/Auth/Login'
 import Register from '../pages/Auth/Register'
+import ForgotPassword from '../pages/Auth/ForgotPassword'
+import ResetPassword from '../pages/Auth/ResetPassword'
 import NotesPage from '../pages/Notes/NotesPage'
 import RemindersPage from '../pages/Reminders/RemindersPage'
 import SharedPage from '../pages/Shared/SharedPage'
@@ -20,6 +22,10 @@ export default function AppRoutes() {
         <Route path={ROUTES.LOGIN} element={<Login />} />
         <Route path={ROUTES.SIGNUP} element={<Register />} />
       </Route>
+
+      {/* Reachable whether or not the user is logged in (reset link opens from email) */}
+      <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPassword />} />
+      <Route path={ROUTES.RESET_PASSWORD} element={<ResetPassword />} />
 
       <Route element={<PrivateRoute />}>
         <Route element={<MainLayout />}>

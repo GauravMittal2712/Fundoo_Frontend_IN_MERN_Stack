@@ -20,6 +20,11 @@
   --chip-bg: rgba(0, 0, 0, 0.06);
   --shadow-sm: rgba(0, 0, 0, 0.12);
   --shadow-md: rgba(0, 0, 0, 0.22);
+  /* in :root, after --accent-hover */
+  --on-accent: #ffffff;
+
+/* in [data-theme='dark'], after --accent-hover */
+  --on-accent: #202124;
 }
 
 [data-theme='dark'] {
@@ -43,4 +48,9 @@
   --chip-bg: rgba(255, 255, 255, 0.12);
   --shadow-sm: rgba(0, 0, 0, 0.5);
   --shadow-md: rgba(0, 0, 0, 0.7);
+  /* in :root, after --accent-hover */
+  --on-accent: #ffffff;
+
+/* in [data-theme='dark'], after --accent-hover */
+  --on-accent: #202124;
 }

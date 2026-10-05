@@ -6,6 +6,8 @@ export const ROUTES = {
   SHARED: '/shared',
   ARCHIVE: '/archive',
   TRASH: '/trash',
+  FORGOT_PASSWORD: '/forgot-password',
+  RESET_PASSWORD: '/reset-password/:token',
   label: (id) => `/label/${id}`,
 }
 

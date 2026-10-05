@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { registerUser } from '../../services/authService';
+import { useAuth } from '../../hooks/useAuth';
+import { useToast } from '../../hooks/useToast';
+import GoogleSignInButton from '../../components/common/GoogleSignInButton/GoogleSignInButton';
+import signupImage from '../../assets/googleimage.jpg';
+
 import '../../styles/auth.css';
 
 export default function Register() {
@@ -16,6 +21,8 @@ export default function Register() {
   const [fieldErrors, setFieldErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
+  const toast = useToast();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -46,6 +53,7 @@ export default function Register() {
         email: form.email.trim(),
         password: form.password,
       });
+      toast.success('Account created! Please log in.');
       navigate('/login');
     } catch (err) {
       const msg = err.response?.data?.message || 'Registration failed';
@@ -53,6 +61,12 @@ export default function Register() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleGoogleSuccess = ({ user, token }) => {
+    login(user, token);
+    toast.success('Signed in with Google');
+    navigate('/notes');
   };
 
   return (
@@ -123,9 +137,16 @@ export default function Register() {
               </button>
             </div>
           </form>
+
+          <GoogleSignInButton text="signup_with" onSuccess={handleGoogleSuccess} onError={setError} />
         </div>
 
         <div className="auth-right">
+          <img
+            src={signupImage}
+            alt="One Fundoo account"
+            className="auth-illustration"
+          />
           <p className="illustration-text">One account. All of Fundoo working for you.</p>
         </div>
       </div>

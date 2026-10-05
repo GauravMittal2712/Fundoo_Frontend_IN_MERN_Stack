@@ -217,3 +217,12 @@
     display: none;
   }
 }
+.global-success {
+  background: #e6f4ea;
+  color: #137333;
+  padding: 12px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}

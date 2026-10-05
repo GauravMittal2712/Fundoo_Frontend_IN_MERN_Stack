@@ -4,11 +4,13 @@ import useTheme from '../../../hooks/useTheme'
 import { IconBell, IconPin } from '../../common/Icons/Icons'
 import NoteToolbar from '../NoteToolbar/NoteToolbar'
 
-export default function NoteCard({ note, filterType, popover, actions, ...toolbarProps }) {
+export default function NoteCard({ note, filterType, popover, actions, onEdit, ...toolbarProps }) {
   const { theme } = useTheme()
   const hasOpenPopover = popover.type !== null && popover.noteId === note._id
   const isDefaultColor = !note.color || note.color === DEFAULT_NOTE_COLOR
   const showPin = filterType !== 'trash' && filterType !== 'shared'
+  // Only your own, non-trashed notes can be edited (shared-with-you notes are read-only here)
+  const canEdit = filterType !== 'trash' && filterType !== 'shared' && !note.isTrashed
 
   return (
     <div
@@ -26,7 +28,11 @@ export default function NoteCard({ note, filterType, popover, actions, ...toolba
         </button>
       )}
 
-      <div className="note-body">
+      <div
+        className={`note-body ${canEdit ? 'editable' : ''}`}
+        title={canEdit ? 'Click to edit' : undefined}
+        onClick={canEdit ? () => onEdit(note) : undefined}
+      >
         {note.title && <h3 className="note-title">{note.title}</h3>}
         {note.description && <p className="note-desc">{note.description}</p>}
         {note.reminder?.dateTime && (

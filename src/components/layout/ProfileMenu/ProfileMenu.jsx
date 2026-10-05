@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useAuth from '../../../hooks/useAuth'
+import useToast from '../../../hooks/useToast'
 import useClickOutside from '../../../hooks/useClickOutside'
 import { getFullName, getInitials } from '../../../utils/helpers'
 import { ROUTES } from '../../../utils/constants'
@@ -10,6 +11,7 @@ import './ProfileMenu.css'
 export default function ProfileMenu() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+  const toast = useToast()
   const [open, setOpen] = useState(false)
   const menuRef = useRef(null)
 
@@ -26,6 +28,7 @@ export default function ProfileMenu() {
   const handleSignOut = () => {
     close()
     logout()
+    toast.info('Signed out')
     navigate(ROUTES.LOGIN, { replace: true })
   }
 

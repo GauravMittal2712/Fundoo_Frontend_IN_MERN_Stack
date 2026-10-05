@@ -3,6 +3,7 @@ import * as noteService from '../services/noteService'
 import * as labelService from '../services/labelService'
 import * as collaboratorService from '../services/collaboratorService'
 import { getErrorMessage } from '../utils/helpers'
+import useToast from './useToast'
 
 const TYPE_PARAM = { archive: 'archived', trash: 'trash' }
 
@@ -22,6 +23,7 @@ export default function useNotes({ type = 'notes', labelId = null, query = '', r
   // `key` says which view the stored notes belong to. While it differs from the
   // view being asked for, we are "loading".
   const viewKey = `${type}|${labelId}|${query}|${refreshKey}`
+  const toast = useToast()
   const [state, setState] = useState({ key: null, notes: [], error: '' })
   const loading = state.key !== viewKey
 
@@ -67,32 +69,57 @@ export default function useNotes({ type = 'notes', labelId = null, query = '', r
     [setError],
   )
 
+  // Saves new title/description and updates the card in place. Resolves to true on success.
+  const editNote = useCallback(
+    async (note, payload) => {
+      try {
+        const res = await noteService.updateNote(note._id, payload)
+        const updated = res?.data?.data
+        setState((s) => ({
+          ...s,
+          notes: s.notes.map((n) => (n._id === note._id ? { ...n, ...(updated || payload) } : n)),
+        }))
+        return true
+      } catch (err) {
+        setError(getErrorMessage(err, 'Failed to update note'))
+        return false
+      }
+    },
+    [setError],
+  )
+
   const actions = useMemo(() => {
-    const run = async (fn) => {
+    const run = async (fn, successMessage) => {
       try {
         await fn()
         await reload()
+        if (successMessage) toast.success(successMessage)
       } catch (err) {
         setError(getErrorMessage(err, 'Something went wrong'))
       }
     }
 
     return {
-      togglePin: (note) => run(() => noteService.updateNote(note._id, { isPinned: !note.isPinned })),
+      editNote,
+      togglePin: (note) =>
+        run(
+          () => noteService.updateNote(note._id, { isPinned: !note.isPinned }),
+          note.isPinned ? 'Note unpinned' : 'Note pinned',
+        ),
       changeColor: (note, color) => run(() => noteService.updateNote(note._id, { color })),
-      archive: (note) => run(() => noteService.archiveNote(note._id)),
-      unarchive: (note) => run(() => noteService.restoreNote(note._id)),
-      trash: (note) => run(() => noteService.trashNote(note._id)),
-      restore: (note) => run(() => noteService.restoreNote(note._id)),
+      archive: (note) => run(() => noteService.archiveNote(note._id), 'Note archived'),
+      unarchive: (note) => run(() => noteService.restoreNote(note._id), 'Note unarchived'),
+      trash: (note) => run(() => noteService.trashNote(note._id), 'Note moved to trash'),
+      restore: (note) => run(() => noteService.restoreNote(note._id), 'Note restored'),
       deleteForever: (note) => {
         if (!window.confirm('Delete this note forever? This cannot be undone.')) return
-        run(() => noteService.deleteNote(note._id))
+        run(() => noteService.deleteNote(note._id), 'Note deleted forever')
       },
       saveReminder: (note, dateTime) => {
         if (!dateTime) return
-        run(() => noteService.setReminder(note._id, dateTime))
+        run(() => noteService.setReminder(note._id, dateTime), 'Reminder set')
       },
-      removeReminder: (note) => run(() => noteService.removeReminder(note._id)),
+      removeReminder: (note) => run(() => noteService.removeReminder(note._id), 'Reminder removed'),
       toggleLabel: async (note, label) => {
         const has = (note.labels || []).some((l) => l._id === label._id)
         try {
@@ -115,7 +142,7 @@ export default function useNotes({ type = 'notes', labelId = null, query = '', r
         }
       },
     }
-  }, [reload, setError, type, labelId])
+  }, [reload, setError, editNote, toast, type, labelId])
 
   return { notes: state.notes, loading, error: state.error, clearError, createNote, actions }
 }

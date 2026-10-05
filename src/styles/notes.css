@@ -655,3 +655,20 @@
   color: var(--text-primary); font-size: 14px; padding: 6px 0;
 }
 .collab-error { color: var(--error-text); font-size: 13px; margin-top: 8px; }
+
+/* ===================== Edit note modal ===================== */
+.note-body.editable { cursor: pointer; }
+
+.edit-note-modal {
+  width: 92%;
+  max-width: 560px;
+}
+
+.edit-note-form {
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+.edit-note-form .composer-desc { min-height: 160px; }

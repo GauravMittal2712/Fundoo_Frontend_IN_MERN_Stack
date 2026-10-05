@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { loginUser } from '../../services/authService'
 import { useAuth } from '../../hooks/useAuth'
+import { useToast } from '../../hooks/useToast'
+import GoogleSignInButton from '../../components/common/GoogleSignInButton/GoogleSignInButton'
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -12,6 +14,7 @@ export default function Login() {
 
   const { login } = useAuth()
   const navigate = useNavigate()
+  const toast = useToast()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -27,6 +30,7 @@ export default function Login() {
       }
 
       login(data.user, data.token)
+      toast.success('Welcome back!')
       navigate('/notes')
     } catch (err) {
       const message =
@@ -37,6 +41,12 @@ export default function Login() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleGoogleSuccess = ({ user, token }) => {
+    login(user, token)
+    toast.success('Signed in with Google')
+    navigate('/notes')
   }
 
   return (
@@ -97,9 +107,9 @@ export default function Login() {
 
           {/* Forgot Password */}
           <div style={{ marginBottom: 32 }}>
-            <a href="#" style={styles.link} onClick={(e) => e.preventDefault()}>
-              forgot Password?
-            </a>
+             <Link to="/forgot-password" style={styles.link}>
+              Forgot password?
+            </Link>
           </div>
 
           {/* Bottom Actions */}
@@ -113,6 +123,8 @@ export default function Login() {
             </button>
           </div>
         </form>
+
+        <GoogleSignInButton onSuccess={handleGoogleSuccess} onError={setError} />
       </div>
     </div>
   )
@@ -124,13 +136,13 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    background: '#fff',
+    background: 'var(--bg)',
     fontFamily: 'Roboto, Arial, sans-serif',
   },
   card: {
     width: '100%',
     maxWidth: 450,
-    border: '1px solid #dadce0',
+    border: '1px solid var(--border)',
     borderRadius: 8,
     padding: '48px 40px 36px',
   },
@@ -142,12 +154,12 @@ const styles = {
   title: {
     fontSize: 24,
     fontWeight: 400,
-    color: '#202124',
+    color: 'var(--text-primary)',
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: '#202124',
+    color: 'var(--text-primary)',
     marginBottom: 32,
   },
   formGroup: {
@@ -156,7 +168,7 @@ const styles = {
   label: {
     display: 'block',
     fontSize: 14,
-    color: '#5f6368',
+    color: 'var(--text-secondary)',
     marginBottom: 6,
   },
   input: {
@@ -164,20 +176,22 @@ const styles = {
     height: 52,
     padding: '0 15px',
     fontSize: 16,
-    border: '1px solid #dadce0',
+    border: '1px solid var(--border)',
     borderRadius: 4,
     outline: 'none',
+    background: 'var(--input-bg)',
+    color: 'var(--text-primary)',
   },
   checkboxLabel: {
     display: 'flex',
     alignItems: 'center',
     fontSize: 14,
-    color: '#202124',
+    color: 'var(--text-primary)',
     marginBottom: 16,
     cursor: 'pointer',
   },
   link: {
-    color: '#1a73e8',
+    color: 'var(--accent)',
     fontSize: 14,
     fontWeight: 500,
     textDecoration: 'none',
@@ -188,8 +202,8 @@ const styles = {
     alignItems: 'center',
   },
   button: {
-    background: '#1a73e8',
-    color: '#fff',
+    background: 'var(--accent)',
+    color: 'var(--on-accent)',
     border: 'none',
     borderRadius: 4,
     padding: '10px 24px',
@@ -198,8 +212,8 @@ const styles = {
     cursor: 'pointer',
   },
   error: {
-    background: '#fce8e6',
-    color: '#d93025',
+    background: 'var(--error-bg)',
+    color: 'var(--error-text)',
     padding: '12px 16px',
     borderRadius: 4,
     fontSize: 14,

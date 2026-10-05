@@ -3,6 +3,7 @@ import { EMPTY_COPY } from '../../../utils/constants'
 import { IconClose } from '../../common/Icons/Icons'
 import NoteCard from '../NoteCard/NoteCard'
 import CollaboratorModal from '../CollaboratorModal/CollaboratorModal'
+import EditNoteModal from '../EditNoteModal/EditNoteModal'
 
 const NO_POPOVER = { type: null, noteId: null }
 
@@ -13,6 +14,7 @@ export default function NoteList({
   const [popover, setPopover] = useState(NO_POPOVER)
   const [reminderValue, setReminderValue] = useState('')
   const [collabNote, setCollabNote] = useState(null)
+  const [editingNote, setEditingNote] = useState(null)
 
   const closePopovers = () => setPopover(NO_POPOVER)
 
@@ -32,6 +34,10 @@ export default function NoteList({
       if (!reminderValue) return
       closePopovers()
       actions.saveReminder(note, reminderValue)
+    },
+    onEdit: (note) => {
+      closePopovers()
+      setEditingNote(note)
     },
     onOpenCollab: (note) => {
       closePopovers()
@@ -80,6 +86,14 @@ export default function NoteList({
             ))}
           </div>
         </>
+      )}
+
+      {editingNote && (
+        <EditNoteModal
+          note={editingNote}
+          onSave={(payload) => actions.editNote(editingNote, payload)}
+          onClose={() => setEditingNote(null)}
+        />
       )}
 
       {collabNote && <CollaboratorModal note={collabNote} onClose={() => setCollabNote(null)} />}
