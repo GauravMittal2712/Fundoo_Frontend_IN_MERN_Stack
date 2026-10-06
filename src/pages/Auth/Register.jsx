@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { registerUser } from '../../services/authService';
 import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
+import { getPasswordError, PASSWORD_HINT } from '../../utils/password';
 import GoogleSignInButton from '../../components/common/GoogleSignInButton/GoogleSignInButton';
 import signupImage from '../../assets/googleimage.jpg';
 
@@ -34,7 +35,8 @@ export default function Register() {
     if (!form.firstName.trim()) errs.firstName = 'First name is required';
     if (!form.lastName.trim()) errs.lastName = 'Last name is required';
     if (!form.email.trim()) errs.email = 'Email is required';
-    if (form.password.length < 6) errs.password = 'Password must be at least 6 characters';
+    const passwordError = getPasswordError(form.password);
+    if (passwordError) errs.password = passwordError;
     if (form.password !== form.confirmPassword) errs.confirmPassword = 'Passwords do not match';
     setFieldErrors(errs);
     return Object.keys(errs).length === 0;
@@ -123,7 +125,7 @@ export default function Register() {
               </div>
             </div>
 
-            <p className="helper-text">Use 8 or more characters with a mix of letters, numbers & symbols</p>
+            <p className="helper-text">{PASSWORD_HINT}</p>
 
             <label className="show-password">
               <input type="checkbox" checked={showPassword} onChange={() => setShowPassword(!showPassword)} />

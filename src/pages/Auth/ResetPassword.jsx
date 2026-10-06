@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { resetPassword } from '../../services/authService'
+import { getPasswordError, PASSWORD_HINT } from '../../utils/password'
 import '../../styles/auth.css'
 
 export default function ResetPassword() {
@@ -21,7 +22,8 @@ export default function ResetPassword() {
 
   const validate = () => {
     const errs = {}
-    if (form.password.length < 6) errs.password = 'Password must be at least 6 characters'
+    const passwordError = getPasswordError(form.password)
+    if (passwordError) errs.password = passwordError
     if (form.password !== form.confirmPassword) errs.confirmPassword = 'Passwords do not match'
     setFieldErrors(errs)
     return Object.keys(errs).length === 0
@@ -85,6 +87,7 @@ export default function ResetPassword() {
               />
               <label className="form-label">New password*</label>
               {fieldErrors.password && <p className="error-text">{fieldErrors.password}</p>}
+              <p className="helper-text">{PASSWORD_HINT}</p>
             </div>
 
             <div className="form-group">

@@ -9,8 +9,7 @@ export default function NoteCard({ note, filterType, popover, actions, onEdit, .
   const hasOpenPopover = popover.type !== null && popover.noteId === note._id
   const isDefaultColor = !note.color || note.color === DEFAULT_NOTE_COLOR
   const showPin = filterType !== 'trash' && filterType !== 'shared'
-  // Only your own, non-trashed notes can be edited (shared-with-you notes are read-only here)
-  const canEdit = filterType !== 'trash' && filterType !== 'shared' && !note.isTrashed
+  const canEdit = filterType !== 'trash' && !note.isTrashed
 
   return (
     <div
