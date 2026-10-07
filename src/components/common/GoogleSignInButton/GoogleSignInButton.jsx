@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { googleLogin } from '../../../services/authService'
 
 const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID
-const GSI_SRC = 'https://accounts.google.com/gsi/client' ;
+const GSI_SRC = 'https://accounts.google.com/gsi/client'
 
 // Load Google's script once, no matter how many buttons are mounted.
 let scriptPromise
@@ -24,14 +24,25 @@ const loadGoogleScript = () => {
   }
   return scriptPromise
 }
-export default function GoogleSignInButton({ onSuccess, onError, text = 'continue_with' }) {
+
+/**
+ * "Continue with Google" button.
+ * onSuccess({ user, token }) runs after our backend accepted the Google credential.
+ * onError(message) runs when anything goes wrong.
+ * onCredential(credential) is optional: when given, the button does NOT log in, it just hands
+ * the raw Google credential back (used to re-confirm identity, e.g. deleting an account).
+ * Renders nothing if VITE_GOOGLE_CLIENT_ID is not set, so the page keeps working.
+ */
+export default function GoogleSignInButton({ onSuccess, onError, onCredential, text = 'continue_with' }) {
   const containerRef = useRef(null)
   const onSuccessRef = useRef(onSuccess)
   const onErrorRef = useRef(onError)
+  const onCredentialRef = useRef(onCredential)
 
   useEffect(() => {
     onSuccessRef.current = onSuccess
     onErrorRef.current = onError
+    onCredentialRef.current = onCredential
   })
 
   useEffect(() => {
@@ -39,6 +50,10 @@ export default function GoogleSignInButton({ onSuccess, onError, text = 'continu
     let cancelled = false
 
     const handleCredential = async (response) => {
+      if (onCredentialRef.current) {
+        onCredentialRef.current(response.credential)
+        return
+      }
       try {
         const res = await googleLogin(response.credential)
         const data = res?.data?.data || res?.data

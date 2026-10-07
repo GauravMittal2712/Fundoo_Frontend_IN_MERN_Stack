@@ -1,0 +1,57 @@
+.delete-account-modal {
+  width: min(440px, 92vw);
+  padding: 24px;
+  border-radius: 8px;
+  background: var(--card-bg, #fff);
+  color: var(--text-primary, #202124);
+  box-shadow: var(--shadow-md, 0 8px 24px rgba(0, 0, 0, 0.3));
+}
+
+.delete-account-title { margin: 0 0 12px; font-size: 20px; font-weight: 500; }
+
+.delete-account-text {
+  margin: 0 0 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-secondary, #5f6368);
+}
+
+.delete-account-error {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  background: var(--error-bg, #fce8e6);
+  color: var(--error-text, #d93025);
+}
+
+.delete-account-label { display: block; margin-bottom: 6px; font-size: 14px; color: var(--text-secondary, #5f6368); }
+
+.delete-account-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 12px;
+  font-size: 15px;
+  border: 1px solid var(--border, #dadce0);
+  border-radius: 4px;
+  background: var(--input-bg, #fff);
+  color: var(--text-primary, #202124);
+}
+
+.delete-account-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px; }
+
+.delete-account-cancel,
+.delete-account-danger {
+  height: 38px;
+  padding: 0 18px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.delete-account-cancel { border: 1px solid var(--border, #dadce0); background: transparent; color: var(--text-primary, #202124); }
+.delete-account-danger { border: none; background: #d93025; color: #fff; }
+.delete-account-danger:hover:not(:disabled) { background: #b3261e; }
+.delete-account-danger:disabled,
+.delete-account-cancel:disabled { opacity: 0.5; cursor: not-allowed; }

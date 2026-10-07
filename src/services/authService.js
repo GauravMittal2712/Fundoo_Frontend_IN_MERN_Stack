@@ -9,9 +9,14 @@ export const loginUser = async (data) => {
   const res = await api.post('/auth/login', data);
   return res.data;
 };
-
 export const googleLogin = async (credential) => {
   const res = await api.post('/auth/google', { credential });
+  return res.data;
+};
+
+// payload is { password } or, for Google accounts, { credential }
+export const deleteAccount = async (payload) => {
+  const res = await api.delete('/profile', { data: payload });
   return res.data;
 };
 

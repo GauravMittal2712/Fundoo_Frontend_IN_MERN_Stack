@@ -68,3 +68,37 @@
 }
 
 .profile-signout:hover { background: rgba(60, 64, 67, 0.08); }
+
+/* ---- Delete account: a quiet, clearly-red footer action under a divider ---- */
+.profile-divider {
+  height: 1px;
+  margin: 16px 0 10px;
+  background: var(--border-soft, var(--border, #e8eaed));
+}
+
+.profile-delete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 8px 18px;
+  border: none;
+  border-radius: 18px;
+  background: transparent;
+  color: #d93025;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.profile-delete svg { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
+.profile-delete:hover { background: rgba(217, 48, 37, 0.1); }
+.profile-delete:focus-visible { outline: 2px solid rgba(217, 48, 37, 0.5); outline-offset: 2px; }
+
+[data-theme='dark'] .profile-delete { color: #f28b82; }
+[data-theme='dark'] .profile-delete:hover { background: rgba(242, 139, 130, 0.14); }

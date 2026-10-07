@@ -5,7 +5,8 @@ import useToast from '../../../hooks/useToast'
 import useClickOutside from '../../../hooks/useClickOutside'
 import { getFullName, getInitials } from '../../../utils/helpers'
 import { ROUTES } from '../../../utils/constants'
-import { IconLogout } from '../../common/Icons/Icons'
+import { IconLogout, IconTrash } from '../../common/Icons/Icons'
+import DeleteAccountModal from '../../profile/DeleteAccountModal/DeleteAccountModal'
 import './ProfileMenu.css'
 
 export default function ProfileMenu() {
@@ -13,6 +14,7 @@ export default function ProfileMenu() {
   const navigate = useNavigate()
   const toast = useToast()
   const [open, setOpen] = useState(false)
+  const [showDelete, setShowDelete] = useState(false)
   const menuRef = useRef(null)
 
   const close = () => setOpen(false)
@@ -32,10 +34,24 @@ export default function ProfileMenu() {
     navigate(ROUTES.LOGIN, { replace: true })
   }
 
+  const openDeleteAccount = () => {
+    close()
+    setShowDelete(true)
+  }
+
+  // The server has already deleted everything: just clear the local login and leave.
+  const handleAccountDeleted = () => {
+    setShowDelete(false)
+    logout()
+    toast.success('Your account has been deleted')
+    navigate(ROUTES.LOGIN, { replace: true })
+  }
+
   const initials = getInitials(user) || '?'
   const fullName = getFullName(user)
 
   return (
+    <>
     <div className="profile-menu" ref={menuRef}>
       <button
         type="button"
@@ -60,8 +76,20 @@ export default function ProfileMenu() {
             <IconLogout />
             <span>Sign out</span>
           </button>
+
+          <div className="profile-divider" role="separator" />
+
+          <button type="button" className="profile-delete" role="menuitem" onClick={openDeleteAccount}>
+            <IconTrash />
+            <span>Delete account</span>
+          </button>
         </div>
       )}
     </div>
+
+    {showDelete && (
+      <DeleteAccountModal onClose={() => setShowDelete(false)} onDeleted={handleAccountDeleted} />
+    )}
+    </>
   )
 }
