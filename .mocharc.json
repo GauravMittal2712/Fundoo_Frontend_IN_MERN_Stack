@@ -1,0 +1,8 @@
+{
+  "spec": "src/**/*.test.{js,jsx}",
+  "node-option": [
+    "import=tsx",
+    "import=global-jsdom/register",
+    "import=./test/register.js"
+  ]
+}
